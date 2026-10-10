@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ludo Online</title>
+<style>
+body{margin:0;background:#172033;color:white;font-family:Arial;text-align:center;padding:20px}
+h1{color:#ffd54a}
+.board{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;max-width:330px;margin:20px auto}
+.cell{aspect-ratio:1;background:#eee;border:2px solid #333;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#222;font-size:22px}
+.red{background:#ff7777}.green{background:#75e69a}.blue{background:#80b9ff}.yellow{background:#ffe77a}
+button{padding:13px 22px;border:0;border-radius:10px;font-size:17px;background:#ffd54a;margin:8px}
+#status{font-size:18px;margin:15px}
+</style>
+</head>
+<body>
+<h1>🎲 LUDO ONLINE</h1>
+<p>Basic Demo — 2 Players</p>
+<div class="board" id="board"></div>
+<div id="status">Red Player ki bari</div>
+<button onclick="roll()">🎲 Dice Roll</button>
+<div id="dice">Dice: —</div>
+<script>
+const board=document.getElementById('board');
+const colors=['red','green','yellow','blue'];
+for(let i=0;i<36;i++){
+ let c=document.createElement('div');
+ c.className='cell '+(i%4===0?colors[(i/4)%4]:'');
+ c.id='c'+i;
+ board.appendChild(c);
+}
+let pos=[0,0],turn=0;
+function draw(){
+ document.querySelectorAll('.cell').forEach(c=>c.textContent='');
+ pos.forEach((p,i)=>{
+ document.getElementById('c'+p).textContent+=i===0?'🔴':'🟢';
+ });
+}
+function roll(){
+ let n=Math.floor(Math.random()*6)+1;
+ document.getElementById('dice').textContent='Dice: '+n;
+ pos[turn]=(pos[turn]+n)%36;
+ draw();
+ turn=1-turn;
+ document.getElementById('status').textContent=(turn===0?'Red':'Green')+' Player ki bari';
+}
+draw();
+</script>
+</body>
+</html>
